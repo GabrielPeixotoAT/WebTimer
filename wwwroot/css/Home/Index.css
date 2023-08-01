@@ -1,0 +1,18 @@
+﻿body {
+}
+
+.my-card {
+    border-radius: 30px;
+    padding: 20px;
+}
+
+.my-subcard {
+    border-radius: 15px;
+    padding: 13px;
+}
+
+.my-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}

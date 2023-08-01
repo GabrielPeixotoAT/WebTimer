@@ -1,6 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebTimer.Data;
+using WebTimer.Data.Seeders;
+using WebTimer.Services.Auth;
+using WebTimer.Services.Auth.Interfaces;
+using WebTimer.Services.Records;
+using WebTimer.Services.Records.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +19,17 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<IRecordService, RecordService>();
+
 var app = builder.Build();
+
+// Chamar o seeder para popular o banco de dados
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    DbSeeder.Seed(dbContext);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
