@@ -19,7 +19,7 @@
             Swal.fire({
                 icon: 'error',
                 title: 'Erro',
-                text: JSON.stringify(errorThrown)
+                text: errorThrown.responseText
             })
         }
     });

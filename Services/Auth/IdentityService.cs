@@ -38,9 +38,16 @@ namespace WebTimer.Services.Auth
             }
         }
 
-        public string GetUserId()
+        public string? GetUserId()
         {
-            return httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            try
+            {
+                return httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Usuário não encontrado");
+            }
         }
     }
 }

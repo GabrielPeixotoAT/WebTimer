@@ -1,90 +1,70 @@
-﻿@{
+﻿@using WebTimer.Models.ViewModels;
+
+@model HomeViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
-<div class="row">
-    <div class="col-lg-4 p-2">
-        <div class="mt-4 shadow my-card bg-success">
-            <div class="text-center mb-3">
-                <h4>
-                    Hoje
-                </h4>
-            </div>
-            <div class="m-2">
-                <div class="mt-2 shadow my-subcard bg-secondary">
-                    <div class="row">
-                        <div class="col-8">
-                            Trabalho
-                        </div>
-                        <div class="col-4 text-end">
-                            00:00
-                        </div>
-                    </div>
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="row">
+        <div class="col-lg-4 p-2">
+            <div class="mt-4 shadow my-card bg-transparent border border-success">
+                <div class="text-center mb-3">
+                    <h4>
+                        Hoje
+                    </h4>
                 </div>
-                <div class="mt-2 shadow my-subcard bg-secondary">
-                    <div class="row">
-                        <div class="col-8">
-                            Projetos
+                <div class="m-2">
+                    @foreach (var category in Model.TimesByCategories)
+                    {
+                        <div class="mt-2 shadow my-subcard border border-success btn-outline-success text-light">
+                            <div class="row">
+                                <div class="col-8">
+                                    @category.Key
+                                </div>
+                                <div class="col-4 text-end">
+                                    @category.Value.ToString(@"hh\:mm\:ss")
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-4 text-end">
-                            00:00
-                        </div>
-                    </div>
+                    }
                 </div>
-                <div class="mt-2 shadow my-subcard bg-secondary">
-                    <div class="row">
-                        <div class="col-8">
-                            Pessoal
-                        </div>
-                        <div class="col-4 text-end">
-                            00:00
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-2 shadow my-subcard bg-secondary">
-                <div class="row">
-                    <div class="col-8">
-                        Entretenimento
-                    </div>
-                    <div class="col-4 text-end">
-                        00:00
-                    </div>
-                </div>
-            </div>
             </div>
         </div>
-    </div>
-    <div class="col-lg-4 p-2">
-        <div class="mt-5 text-center">
-            <button class="btn btn-outline-success text-light my-circle mt-5" onclick="InsertRecord()">
-                <div class="h4">
-                    Iniciar
+        <div class="col-lg-4 p-2 mt-5">
+            <div class="mt-5 text-center">
+                <button class="btn btn-outline-success text-light my-circle mt-5 shadow" onclick="InsertRecord()">
+                    <div class="h4">
+                        Iniciar
+                    </div>
+                </button>
+                <div class="mt-4 mb-3">
+                    Iniciado:
+                    <span id="startTime">00:00:00</span>
                 </div>
-            </button>
-            <div class="mt-4 mb-3">
-                Iniciado:
-                <span id="startTime">00:00:00</span>
             </div>
         </div>
-    </div>
-    <div class="col-lg-4 p-2 mt-3">
-        <div class="mt-5">
+        <div class="col-lg-4 p-2 mt-5">
             <div class="mt-5">
-                <label class="h5 mt-5">
-                    Atividade
-                </label>
-                <select class="form-select bg-success border-success text-light" id="selectStatus">
-                    <option selected disabled>Selecione</option>
-                    <option value="1">Trabalho</option>
-                    <option value="2">Projetos</option>
-                    <option value="3">Estudos</option>
-                    <option value="4">Pessoal</option>
-                    <option value="5">Entretenimento</option>
-                </select>
+                <div class="mt-5">
+                    <label class="h5 mt-5">
+                        Atividade
+                    </label>
+                    <select class="form-select bg-dark border-success text-light shadow" id="selectStatus">
+                        <option selected disabled>Selecione</option>
+                        <option value="1">Trabalho</option>
+                        <option value="2">Projetos</option>
+                        <option value="3">Estudos</option>
+                        <option value="4">Pessoal</option>
+                        <option value="5">Entretenimento</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<link rel="stylesheet" href="~/css/Home/Index.css" />
+    <link rel="stylesheet" href="~/css/Home/Index.css" />
 
-<script src="~/js/Home/Index.js"></script>
+    <script src="~/js/Home/Index.js"></script>
+}

@@ -18,9 +18,19 @@ namespace WebTimer.Controllers
             this.recordService = recordService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            HomeViewModel viewModel = new HomeViewModel();
+
+            var timesByCategotries = await recordService.GetRecordsAndTimesToday(User);
+
+            viewModel.TimesByCategories.Add("Trabalho", timesByCategotries[1]);
+            viewModel.TimesByCategories.Add("Projetos", timesByCategotries[2]);
+            viewModel.TimesByCategories.Add("Estudos", timesByCategotries[3]);
+            viewModel.TimesByCategories.Add("Pessoal", timesByCategotries[4]);
+            viewModel.TimesByCategories.Add("Entretenimento", timesByCategotries[5]);
+
+            return View(viewModel);
         }
 
         public IActionResult Privacy()
@@ -36,7 +46,10 @@ namespace WebTimer.Controllers
 
         [HttpPost]
         public async Task<IActionResult> InsertRecord([FromBody] HomeViewModel homeViewModel)
-        {
+            {
+            if (homeViewModel == null)
+                return BadRequest("Nenhuma atividade selecionada!");
+
             var date = await recordService.InsertRecord(homeViewModel.Status, User);
 
             return Ok(date.ToString("hh:mm:ss"));
