@@ -4,6 +4,7 @@
     {
         public int Status { get; set; }
         public Dictionary<string, TimeSpan> TimesByCategories { get; set; }
+        public Record? OpenRecord { get; set; }
 
         public HomeViewModel() 
         {

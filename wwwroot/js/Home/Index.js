@@ -12,7 +12,15 @@
         data: json,
         success: function (result) {
             if (result) {
-                $('#startTime').text(result);
+                let array = result.split('|');
+                if (array[1] != '') {
+                    $('#startTime').text('Iniciado às: ' + array[0]);
+                    $('#btn-title').text('Parar');
+                }
+                else {
+                    $('#startTime').text('');
+                    $('#btn-title').text('Iniciar');
+                }
             }
         },
         error: function (errorThrown) {

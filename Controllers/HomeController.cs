@@ -30,6 +30,8 @@ namespace WebTimer.Controllers
             viewModel.TimesByCategories.Add("Pessoal", timesByCategotries[4]);
             viewModel.TimesByCategories.Add("Entretenimento", timesByCategotries[5]);
 
+            viewModel.OpenRecord = recordService.GetOpen(User);
+
             return View(viewModel);
         }
 
@@ -52,7 +54,9 @@ namespace WebTimer.Controllers
 
             var date = await recordService.InsertRecord(homeViewModel.Status, User);
 
-            return Ok(date.ToString("hh:mm:ss"));
+            var openRecord = recordService.GetOpen(User);
+
+            return Ok(date.ToString("hh:mm:ss") + $"|{openRecord?.RecordId}");
         }
     }
 }

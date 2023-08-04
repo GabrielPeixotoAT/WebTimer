@@ -4,6 +4,16 @@
 
 @{
     ViewData["Title"] = "Home Page";
+
+    string lastMessage = "";
+    string btnMessage = "Inciar";
+
+    if (Model.OpenRecord != null)
+    {
+        lastMessage = $"Iniciado às: {Model.OpenRecord.StartTime.ToString(@"hh\:mm\:ss")}";
+        btnMessage = "Parar";
+    }
+
 }
 @if (User.Identity.IsAuthenticated)
 {
@@ -35,13 +45,12 @@
         <div class="col-lg-4 p-2 mt-5">
             <div class="mt-5 text-center">
                 <button class="btn btn-outline-success text-light my-circle mt-5 shadow" onclick="InsertRecord()">
-                    <div class="h4">
-                        Iniciar
+                    <div class="h4" id="btn-title">
+                        @btnMessage
                     </div>
                 </button>
                 <div class="mt-4 mb-3">
-                    Último Registro:
-                    <span id="startTime">00:00:00</span>
+                    <span id="startTime">@lastMessage</span>
                 </div>
             </div>
         </div>
@@ -52,12 +61,61 @@
                         Atividade
                     </label>
                     <select class="form-select bg-dark border-success text-light shadow" id="selectStatus">
-                        <option selected disabled>Selecione</option>
-                        <option value="1">Trabalho</option>
-                        <option value="2">Projetos</option>
-                        <option value="3">Estudos</option>
-                        <option value="4">Pessoal</option>
-                        <option value="5">Entretenimento</option>
+                        @if(Model.OpenRecord == null)
+                        {
+                            <option selected disabled>Selecione</option>
+                            <option value="1">Trabalho</option>
+                            <option value="2">Projetos</option>
+                            <option value="3">Estudos</option>
+                            <option value="4">Pessoal</option>
+                            <option value="5">Entretenimento</option>
+                        }
+                        else
+                        {
+                            switch (Model.OpenRecord.StatusId)
+                            {
+                                case 1:
+                                    <option disabled>Selecione</option>
+                                    <option value="1" selected>Trabalho</option>
+                                    <option value="2">Projetos</option>
+                                    <option value="3">Estudos</option>
+                                    <option value="4">Pessoal</option>
+                                    <option value="5">Entretenimento</option>
+                                    break;
+                                case 2:
+                                    <option disabled>Selecione</option>
+                                    <option value="1">Trabalho</option>
+                                    <option value="2" selected>Projetos</option>
+                                    <option value="3">Estudos</option>
+                                    <option value="4">Pessoal</option>
+                                    <option value="5">Entretenimento</option>
+                                    break;
+                                case 3:
+                                    <option disabled>Selecione</option>
+                                    <option value="1">Trabalho</option>
+                                    <option value="2">Projetos</option>
+                                    <option value="3" selected>Estudos</option>
+                                    <option value="4">Pessoal</option>
+                                    <option value="5">Entretenimento</option>
+                                    break;
+                                case 4:
+                                    <option disabled>Selecione</option>
+                                    <option value="1">Trabalho</option>
+                                    <option value="2">Projetos</option>
+                                    <option value="3">Estudos</option>
+                                    <option value="4" selected>Pessoal</option>
+                                    <option value="5">Entretenimento</option>
+                                    break;
+                                case 5:
+                                    <option disabled>Selecione</option>
+                                    <option value="1">Trabalho</option>
+                                    <option value="2">Projetos</option>
+                                    <option value="3">Estudos</option>
+                                    <option value="4">Pessoal</option>
+                                    <option value="5" selected>Entretenimento</option>
+                                    break;
+                            }
+                        }
                     </select>
                 </div>
             </div>

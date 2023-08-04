@@ -52,7 +52,7 @@ namespace WebTimer.Services.Records
             return DateTime.Now;
         }
 
-        private Record? GetOpen(ClaimsPrincipal user)
+        public Record? GetOpen(ClaimsPrincipal user)
         {
             return context.Records.FirstOrDefault(r => r.User.Id == identityService.GetUserId() && r.EndTime == null);
         }
